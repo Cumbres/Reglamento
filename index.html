@@ -32,34 +32,68 @@
     letter-spacing: 2px;
     color: #34495e;
   }
-  #font-size-control {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1000;
+  #control-panel {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
   }
-  #font-size-control button {
+  #search-container {
+    display: flex;
+    flex-grow: 1;
+    max-width: 400px;
+  }
+  #search-input {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #3498db;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+  }
+  #search-button {
     background-color: #3498db;
     color: white;
     border: none;
     padding: 10px 15px;
-    margin-right: 5px;
-    font-size: 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+    transition: background-color 0.3s;
+  }
+  #search-button:hover {
+    background-color: #2980b9;
+  }
+  #button-container {
+    display: flex;
+    gap: 5px;
+  }
+  #button-container button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s;
   }
-  #font-size-control button:hover {
+  #button-container button:hover {
     background-color: #2980b9;
   }
   #whatsapp-button {
     background-color: #25D366;
-    color: white;
   }
   #whatsapp-button:hover {
     background-color: #128C7E;
+  }
+  #alert-button {
+    background-color: #ff4136;
+  }
+  #alert-button:hover {
+    background-color: #e60000;
   }
   #show-tip {
     font-size: 20px;
@@ -102,35 +136,6 @@
     display: none;
     margin-top: 10px;
     padding-left: 40px;
-  }
-  #search-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-  }
-  #search-input {
-    width: 200px;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #3498db;
-    border-radius: 5px 0 0 5px;
-    outline: none;
-  }
-  #search-button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 0 5px 5px 0;
-    transition: background-color 0.3s;
-  }
-  #search-button:hover {
-    background-color: #2980b9;
   }
   #search-results-popup {
     display: none;
@@ -229,20 +234,6 @@
   #confirm-whatsapp:hover, #cancel-whatsapp:hover {
     background-color: #2980b9;
   }
-  #alert-button {
-    background-color: #ff4136;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    margin-right: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-  }
-  #alert-button:hover {
-    background-color: #e60000;
-  }
   #article-select, #description {
     width: 100%;
     padding: 5px;
@@ -253,20 +244,49 @@
     border-collapse: collapse;
     margin-bottom: 20px;
   }
-
   th, td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
   }
-
   th {
     background-color: #f2f2f2;
     font-weight: bold;
   }
-
   tr:nth-child(even) {
     background-color: #f9f9f9;
+  }
+  footer {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    border-top: 1px solid #ddd;
+  }
+
+  @media screen and (max-width: 600px) {
+    body {
+      padding: 10px;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+    #control-panel {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    #search-container {
+      max-width: none;
+    }
+
+    #button-container {
+      justify-content: center;
+    }
   }
 </style>
 </head>
@@ -281,20 +301,21 @@
   </div>
 </div>
 
-<div id="font-size-control">
-  <button id="decrease-font">A-</button>
-  <button id="increase-font">A+</button>
-  <button id="show-tip"><i class="fas fa-info-circle"></i></button>
-  <button id="whatsapp-button"><i class="fab fa-whatsapp"></i></button>
-  <button id="alert-button"><i class="fas fa-exclamation-triangle"></i></button>
+<div id="control-panel">
+  <div id="search-container">
+    <input type="text" id="search-input" placeholder="Buscar en el reglamento...">
+    <button id="search-button"><i class="fas fa-search"></i></button>
+  </div>
+  <div id="button-container">
+    <button id="decrease-font">A-</button>
+    <button id="increase-font">A+</button>
+    <button id="show-tip"><i class="fas fa-info-circle"></i></button>
+    <button id="whatsapp-button"><i class="fab fa-whatsapp"></i></button>
+    <button id="alert-button"><i class="fas fa-exclamation-triangle"></i></button>
+  </div>
 </div>
 
 <h1>Reglamento Interno - Condominio Cumbres de Quilpué</h1>
-
-<div id="search-container">
-  <input type="text" id="search-input" placeholder="Buscar en el reglamento...">
-  <button id="search-button"><i class="fas fa-search"></i></button>
-</div>
 
 <div id="search-results-popup" class="popup">
   <div id="search-results-content">
@@ -334,7 +355,7 @@
   </div>
 
   <div class="article">
-    <div class="article-title"><i class="fas fa-volume-up"></i>Artículo 1: Ruidos Molestos en Áreas Comunes y Unidades</div>
+    <div class="article-title"><i class="fas fa-volume-up"></i>Artículo 1: Ruidos y Molestias</div>
     <div class="article-content">
       <p>1.1. Se prohíbe causar ruidos molestos que perturben la tranquilidad de los vecinos, especialmente entre las 22:00 y las 08:00 horas.</p>
       <p>1.2. El límite de ruido permitido es de 60 decibeles (ORD.MUN 06/2023).</p>
@@ -748,6 +769,10 @@
     </div>
   </div>
 </div>
+
+<footer>
+  <p>Diseñado por el Comité de Cumbres de Quilpué. &copy; 2023 Todos los derechos reservados.</p>
+</footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
