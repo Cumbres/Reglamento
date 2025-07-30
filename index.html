@@ -25,8 +25,10 @@
             --shadow-color: rgba(0, 0, 0, 0.07);
             --success-color: #27ae60;
             --danger-color: #c0392b;
-            --highlight-bg-color: #f1c40f;
-            --highlight-text-color: #333;
+            --highlight-yellow-bg: #fef08a; /* Tailwind yellow-200 */
+            --highlight-yellow-text: #854d0e; /* Tailwind yellow-800 */
+            --highlight-red-bg: #fecaca; /* Tailwind red-200 */
+            --highlight-red-text: #991b1b; /* Tailwind red-800 */
         }
 
         body.dark-mode {
@@ -38,8 +40,10 @@
             --card-bg-color: #2c3e50;
             --border-color: #3a5064;
             --shadow-color: rgba(0, 0, 0, 0.2);
-            --highlight-bg-color: #f39c12;
-            --highlight-text-color: #fff;
+            --highlight-yellow-bg: #422006;
+            --highlight-yellow-text: #fef08a;
+            --highlight-red-bg: #450a0a;
+            --highlight-red-text: #fecaca;
         }
 
         * {
@@ -58,6 +62,22 @@
             font-size: 16px;
             transition: font-size 0.3s ease, background-color 0.4s ease, color 0.4s ease;
         }
+        
+        #progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            z-index: 2000;
+            background-color: transparent;
+        }
+        #progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.1s linear;
+        }
 
         .container {
             max-width: 1200px;
@@ -69,12 +89,12 @@
             font-family: 'Playfair Display', serif;
             color: var(--primary-color);
             text-align: center;
-            font-size: 2.4rem; /* Reduced font size */
+            font-size: 2.4rem;
             line-height: 1.3;
-            margin-top: 30px; /* Adjusted margin */
-            margin-bottom: 40px; /* Adjusted margin */
-            padding-bottom: 15px; /* Adjusted padding */
-            border-bottom: 2px solid var(--secondary-color); /* Thinner border */
+            margin-top: 30px;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--secondary-color);
             letter-spacing: 1px;
             transition: color 0.4s ease;
         }
@@ -127,8 +147,8 @@
         }
         #whatsapp-button { background-color: #25D366; color: white; border: none; }
         #whatsapp-button:hover { background-color: #128C7E; }
-        #alert-button { background-color: #e74c3c; color: white; border: none; }
-        #alert-button:hover { background-color: #c0392b; }
+        #report-button { background-color: #e74c3c; color: white; border: none; }
+        #report-button:hover { background-color: #c0392b; }
 
         /* Article Styles */
         .article {
@@ -160,36 +180,44 @@
         .article-content strong { color: var(--primary-color); transition: color 0.4s ease; }
         .article-content a { color: var(--secondary-color); text-decoration: none; font-weight: 500; }
         .article-content a:hover { text-decoration: underline; }
+        .article-content u { text-decoration-color: var(--accent-color); }
+        .article-content mark {
+            background-color: var(--highlight-yellow-bg);
+            color: var(--highlight-yellow-text);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .article-content mark.danger {
+            background-color: var(--highlight-red-bg);
+            color: var(--highlight-red-text);
+        }
 
-        /* Search Highlight */
         .search-highlight-permanent {
-            background-color: var(--highlight-bg-color);
-            color: var(--highlight-text-color);
+            background-color: var(--highlight-yellow-bg);
+            color: var(--highlight-yellow-text);
             border-radius: 3px;
             padding: 1px 3px;
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* Schedule Cards */
         .schedule-container {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted minmax */
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 15px; margin: 20px 0;
         }
         .schedule-card-detailed { border-radius: 10px; overflow: hidden; border: 1px solid var(--border-color); }
         .schedule-card-detailed .header {
-            padding: 12px 15px; /* Reduced padding */
-            color: white; font-weight: 700; font-size: 1rem; /* Reduced font size */
+            padding: 12px 15px; color: white; font-weight: 700; font-size: 1rem;
             display: flex; align-items: center; gap: 10px;
         }
         .schedule-card-detailed .header.allowed { background-color: var(--success-color); }
         .schedule-card-detailed .header.prohibited { background-color: var(--danger-color); }
         .schedule-card-detailed .body { padding: 15px; background-color: var(--card-bg-color); transition: background-color 0.4s ease; }
-        .schedule-card-detailed .body p { margin: 0; font-size: 0.95rem; /* Reduced font size */ }
+        .schedule-card-detailed .body p { margin: 0; font-size: 0.95rem; }
         .schedule-card-detailed .body .day { font-weight: 700; color: var(--primary-color); margin-bottom: 5px; transition: color 0.4s ease; }
-        .schedule-card-detailed .body .time { font-size: 1.2rem; /* Reduced font size */ font-weight: 500; color: var(--text-color); margin-bottom: 5px; transition: color 0.4s ease; }
+        .schedule-card-detailed .body .time { font-size: 1.2rem; font-weight: 500; color: var(--text-color); margin-bottom: 5px; transition: color 0.4s ease; }
         .schedule-card-detailed .body .time-block { margin-bottom: 10px; }
         .schedule-card-detailed .body .time-block:last-child { margin-bottom: 0; }
-        .schedule-card-detailed .body .status { font-weight: 700; font-size: 1.2rem; /* Reduced font size */ text-align: center; }
+        .schedule-card-detailed .body .status { font-weight: 700; font-size: 1.2rem; text-align: center; }
 
         /* Popups */
         .popup {
@@ -230,7 +258,115 @@
         .search-result-item:last-child { border-bottom: none; }
         .search-result-item:hover { background-color: var(--background-color); }
         .search-result-item strong { color: var(--secondary-color); }
-        .search-result-item .highlight { background-color: var(--highlight-bg-color); color: var(--highlight-text-color); border-radius: 3px; padding: 0 2px;}
+        .search-result-item .highlight { background-color: var(--highlight-yellow-bg); color: var(--highlight-yellow-text); border-radius: 3px; padding: 0 2px;}
+
+        /* Report Form Styles */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; color: var(--text-color); }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);
+            background-color: var(--background-color); color: var(--text-color);
+            font-family: 'Inter', sans-serif; font-size: 1rem;
+        }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        
+        /* Chatbot Styles */
+        #chatbot-fab {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            z-index: 1010;
+            font-size: 28px; /* For emoji */
+        }
+        #chatbot-fab:hover { transform: scale(1.1); }
+        
+        #chatbot-window {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            width: 350px;
+            max-width: 90vw;
+            height: 500px;
+            max-height: 70vh;
+            background-color: var(--card-bg-color);
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0.5) translateY(100px);
+            opacity: 0;
+            pointer-events: none;
+            transform-origin: bottom right;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 1009;
+        }
+        #chatbot-window.active {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .chatbot-header {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px; /* For emoji */
+        }
+        .chatbot-messages { flex-grow: 1; padding: 15px; overflow-y: auto; }
+        .chat-message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .bot-message {
+            background-color: var(--border-color);
+            color: var(--text-color);
+            border-bottom-left-radius: 4px;
+            align-self: flex-start;
+        }
+        .user-message {
+            background-color: var(--secondary-color);
+            color: white;
+            border-bottom-right-radius: 4px;
+            margin-left: auto;
+        }
+        .chatbot-input-container {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+        #chatbot-input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            padding: 10px;
+            background-color: transparent;
+            color: var(--text-color);
+        }
+        #chatbot-send {
+            background: none;
+            border: none;
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 10px;
+        }
 
         table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem; }
         th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; transition: border-color 0.4s ease; }
@@ -252,14 +388,47 @@
 </head>
 <body>
 
+<div id="progress-bar-container"><div id="progress-bar"></div></div>
+
 <div class="container">
 
     <!-- Popups -->
     <div id="tip-popup" class="popup"><div class="popup-content"><span class="close" data-popup-id="tip-popup">&times;</span><h3><i class="fas fa-lightbulb" style="color: var(--accent-color);"></i> Tip del Día</h3><p id="tip-text"></p><p id="tip-source"></p><div class="popup-buttons"><button id="next-tip" class="confirm-btn">Siguiente Tip</button></div></div></div>
     <div id="whatsapp-popup" class="popup"><div class="popup-content"><span class="close" data-popup-id="whatsapp-popup">&times;</span><h3><i class="fab fa-whatsapp" style="color: #25D366;"></i> Contacto con Conserjería</h3><p>A este número se contactará a WhatsApp de conserjería, para informar cualquier problema, irregularidad u otro tema que corresponda. ¿Desea continuar?</p><div class="popup-buttons"><button id="cancel-whatsapp" class="cancel-btn">Cancelar</button><button id="confirm-whatsapp" class="confirm-btn">Sí, continuar</button></div></div></div>
-    <div id="alert-popup" class="popup"><div class="popup-content"><span class="close" data-popup-id="alert-popup">&times;</span><h3><i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i> Reportar Infracción</h3><p>Esto abrirá su aplicación de correo electrónico para enviar un reporte de infracción al Comité y a la Administración. ¿Está seguro que desea continuar?</p><div class="popup-buttons"><button id="cancel-alert" class="cancel-btn">Cancelar</button><button id="confirm-alert" class="confirm-btn" style="background-color: #c0392b;">Sí, reportar</button></div></div></div>
+    <div id="report-popup" class="popup">
+        <div class="popup-content">
+            <span class="close" data-popup-id="report-popup">&times;</span>
+            <h3><i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i> Reportar Infracción</h3>
+            <form id="report-form">
+                <div class="form-group">
+                    <label for="report-name">Tu Nombre (Opcional)</label>
+                    <input type="text" id="report-name" placeholder="Anónimo">
+                </div>
+                <div class="form-group">
+                    <label for="report-unit">Tu Unidad/Depto (Opcional)</label>
+                    <input type="text" id="report-unit" placeholder="Ej: Torre A - 101">
+                </div>
+                <div class="form-group">
+                    <label for="report-article">Artículo Involucrado</label>
+                    <select id="report-article" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="report-involved">Persona/Unidad Involucrada (Si se conoce)</label>
+                    <input type="text" id="report-involved" placeholder="Ej: Vecino del 202">
+                </div>
+                <div class="form-group">
+                    <label for="report-description">Descripción de la situación</label>
+                    <textarea id="report-description" required placeholder="Por favor, sea lo más detallado posible..."></textarea>
+                </div>
+                <div class="popup-buttons">
+                    <button type="button" class="cancel-btn" data-popup-id="report-popup">Cancelar</button>
+                    <button type="submit" class="confirm-btn" style="background-color: #c0392b;">Enviar Reporte</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div id="search-results-popup" class="popup"><div id="search-results-content" class="popup-content"><span class="close" data-popup-id="search-results-popup">&times;</span><h3>Resultados de la Búsqueda</h3><div id="search-results"></div></div></div>
-
+    
     <header>
         <div id="control-panel">
             <div id="search-container">
@@ -272,13 +441,27 @@
                 <button id="theme-toggle" aria-label="Cambiar tema"><i class="fas fa-moon"></i></button>
                 <button id="show-tip" aria-label="Mostrar tip del día"><i class="fas fa-info-circle"></i></button>
                 <button id="whatsapp-button" aria-label="Contactar por WhatsApp"><i class="fab fa-whatsapp"></i></button>
-                <button id="alert-button" aria-label="Reportar infracción"><i class="fas fa-exclamation-triangle"></i></button>
+                <button id="report-button" aria-label="Reportar infracción"><i class="fas fa-exclamation-triangle"></i></button>
             </div>
         </div>
         <h1>Reglamento Interno<br>Condominio Cumbres de Quilpué</h1>
     </header>
 
     <main id="articles-container"></main>
+
+    <!-- Chatbot -->
+    <div id="chatbot-fab">🦊</div>
+    <div id="chatbot-window">
+        <div class="chatbot-header">
+            <span class="fox-emoji">🦊</span>
+            <span>Asistente del Condominio</span>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages"></div>
+        <div class="chatbot-input-container">
+            <input type="text" id="chatbot-input" placeholder="Pregúntame algo...">
+            <button id="chatbot-send"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
 
 </div>
 
@@ -289,32 +472,34 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const articlesData = [
-        { id: 'intro', icon: 'fas fa-info-circle', title: 'Introducción: Disposiciones Generales', content: `<p>El presente Reglamento de Normas Internas ha sido dictado por el Comité Administración y por la administración conforme a lo establecido en la Ley 21.442 sobre la Copropiedad Inmobiliaria y Reglamento de Copropiedad de la comunidad, el que se da por conocido de todo habitante, residente y usuario de departamentos y/o locales comerciales a cualquier título, que tiene por objetivo principalmente lo siguiente:</p><ul><li>Normar el uso y goce de los espacios comunes.</li><li>Mantener el valor de los activos de la comunidad.</li><li>Mantener una sana convivencia entre todos los residentes de la comunidad.</li><li>Seguridad y Prevención de Riesgos de los residentes.</li><li>Ordenar el uso, goce y preservar las áreas comunes de la comunidad.</li><li>Complementar y aclarar reglamento de copropiedad, gravamen de cada unidad.</li></ul><p>De esta forma, en él se han definido una serie de normas y procedimientos que deberán ser observados por los copropietarios o sus arrendatarios para el uso de los bienes comunes, estableciéndose además la aplicación de multas ante ciertas situaciones, las que serán cobradas en conjunto con los gastos comunes. Cabe destacar que sobre los bienes de dominio común existe un derecho de propiedad de todos y cada uno de los copropietarios, en proporción al prorrateo respectivo.</p><p>El presente documento se enmarca en la dictación de normas vigentes a la fecha de publicación de este reglamento interno. Refleja la ley de copropiedad 21.442, la ley 21.020 sobre tenencia responsable de mascotas y las normas u ordenanzas municipales y gubernamentales.</p><p>El objetivo final de este Reglamento Interno es obtener una mejor calidad de vida para todos los residentes.</p>`},
-        { id: 'articulo-1', icon: 'fas fa-volume-up', title: 'Artículo 1: Ruidos Molestos', content: `<p>1.1. Se prohíbe causar ruidos molestos que perturben la tranquilidad de los vecinos, especialmente entre las <strong>22:00 y las 08:00 horas</strong>.</p><p>1.2. El límite de ruido permitido es de 60 decibeles (ORD.MUN 06/2023).</p><p>1.3. Horarios para actividades de construcción y remodelación:</p><div class="schedule-container"><div class="schedule-card-detailed"><div class="header allowed"><i class="fas fa-check-circle"></i> Permitido</div><div class="body"><p class="day">Lunes a Sábado</p><div class="time-block"><p class="time">09:00 - 13:00</p></div><div class="time-block"><p class="time">15:00 - 18:00</p></div></div></div><div class="schedule-card-detailed"><div class="header prohibited"><i class="fas fa-times-circle"></i> Prohibido</div><div class="body"><p class="day">Domingos y Festivos</p><p class="status">TODO EL DÍA</p></div></div></div><p>1.4. Las infracciones a este artículo serán sancionadas con multas de 1 a 3 UTM, según la gravedad y reiteración de la falta.</p>`},
-        { id: 'articulo-2', icon: 'fas fa-glass-cheers', title: 'Artículo 2: Reuniones Sociales', content: `<p>2.1. Horarios permitidos para reuniones sociales:</p><div class="schedule-container"><div class="schedule-card-detailed"><div class="header allowed"><i class="fas fa-check-circle"></i> Permitido</div><div class="body"><p class="day">Domingo a Jueves</p><div class="time-block"><p class="time">Hasta las 22:00</p></div></div></div><div class="schedule-card-detailed"><div class="header allowed"><i class="fas fa-check-circle"></i> Permitido</div><div class="body"><p class="day">Viernes, Sábados y Vísperas de Festivos</p><div class="time-block"><p class="time">Hasta las 02:00</p></div></div></div></div><p>2.2. Se debe cuidar los niveles de ruido provocados por artefactos o personas. La intensidad de los artefactos debe ser moderada.</p><p>2.3. Las actividades sociales podrán ser suspendidas por la Administración o el personal de Conserjería si alteran notoriamente la tranquilidad de cualquier residente.</p><p>2.4. Los residentes pueden solicitar la intervención de Carabineros de Chile o Seguridad Ciudadana para suspender actividades que causen molestias.</p><p>2.5. Para reuniones con más de 15 invitados, se debe informar la lista al conserje.</p><p>2.6. Se prohíbe que los invitados extiendan las fiestas a jardines o cualquier otro espacio común del condominio.</p><p>2.7. Las infracciones a este artículo serán sancionadas con multas de 1 a 3 UTM, según la gravedad de la falta.</p>`},
-        { id: 'articulo-3', icon: 'fas fa-door-open', title: 'Artículo 3: Acceso al Condominio', content: `<p>3.1. El ingreso de visitas debe ser autorizado por un residente a través de la Plataforma Virtual o citófono.</p><p>3.2. Las mudanzas y cargas deben ser avisadas con 24 horas de anticipación. Se debe registrar el nombre, cédula de identidad, patente del vehículo y departamento involucrado.</p><p>3.3. Los servicios de delivery solo pueden ingresar hasta el acceso principal, y se permitirá un delivery a la vez. El proceso es:</p><ul><li>El residente debe avisar previamente a conserjería.</li><li>La entrega se realiza en el acceso principal de la torre.</li><li>El residente debe verificar que el delivery se retire.</li></ul><p>3.4. No se permitirá la entrada de personas sin autorización previa de un residente responsable.</p>`},
-        { id: 'articulo-4', icon: 'fas fa-paw', title: 'Artículo 4: Animales Domésticos', content: `<p>En relación a la ley de copropiedad 21.442 y ley 21.020 sobre tenencia responsable de mascotas y animales de compañía:</p><ul><li>Los animales domésticos deben ser de tamaño y raza acorde a la vida en departamento.</li><li>Los dueños deben cumplir con todas las normas sanitarias, aseo y mantención para impedir malos olores o infecciones.</li><li>Está prohibida la libre circulación de mascotas sin compañía de su dueño.</li><li>Es obligatorio el uso de collar identificador con datos de la mascota y teléfono de contacto.</li><li>Las mascotas deben transitar amarradas y acompañadas por un adulto.</li><li>Los dueños son responsables de cualquier daño generado por sus mascotas.</li><li>Las suciedades deben ser recogidas inmediatamente por los dueños.</li><li>Se prohíbe dejar comida y/o agua para mascotas en sectores comunes.</li><li>Los dueños deben mantener limpios sus espacios para evitar malos olores hacia el exterior.</li><li>La adquisición de una nueva mascota debe ser comunicada a la Administración.</li><li>Los perros de razas consideradas agresivas (Rottweiler, Doberman, Pitbull y otros) deben circular en todo momento con un adulto y obligatoriamente con bozal.</li></ul><p>Las infracciones a este artículo serán sancionadas con multas de 1 a 3 UTM según la gravedad de la falta.</p>`},
-        { id: 'articulo-5', icon: 'fas fa-trash-alt', title: 'Artículo 5: Desechos y Basura', content: `<p>5.1. Horario para la evacuación de basura:</p><div class="schedule-container"><div class="schedule-card-detailed"><div class="header allowed"><i class="fas fa-check-circle"></i> Permitido</div><div class="body"><p class="day">Todos los días</p><div class="time-block"><p class="time">09:00 - 22:00</p></div></div></div></div><p>5.2. La basura debe ser depositada en bolsas plásticas debidamente amarradas antes de ser evacuadas por el conducto de basura.</p><p>5.3. Se debe dejar libre de residuos y las puertas cerradas del shaft para evitar malos olores.</p><p>5.4. Está estrictamente prohibido arrojar por los ductos:</p><ul><li>Materiales de construcción</li><li>Elementos inflamables</li><li>Vidrios o cartones de gran tamaño</li></ul><p>5.5. Los materiales de construcción y escombros deben ser retirados por el contratista. No se permite su almacenaje en áreas comunes.</p><p>5.6. Se sugiere utilizar los puntos de reciclaje dispuestos por la municipalidad para botellas de vidrio y plástico.</p><p>5.7. Las infracciones a este artículo serán sancionadas con multas de 1 a 3 UTM según la gravedad de la falta.</p>`},
-        { id: 'articulo-6', icon: 'fas fa-building', title: 'Artículo 6: Estética y Cierre de Balcones', content: `<p>6.1. Queda estrictamente prohibido:</p><ul><li>Colgar toallas, sábanas, frazadas, ropa, maceteros o cualquier otro elemento en las terrazas sobrepasando la línea visual del balcón hacia el exterior.</li><li>Arrojar objetos o desperdicios, sacudir alfombras, choapinos, felpudos, paños de aseo, etc. hacia el exterior de cada unidad.</li><li>Baldear las terrazas ni balcones.</li><li>Extender lonas, banderas, letreros, materiales plásticos o de otra naturaleza en murallas exteriores y barandas de los departamentos.</li><li>Dejar tendederos en calles comunes o exterior, u obstaculizar las entradas de las viviendas.</li></ul><p>6.2. Para el cierre de terrazas, se deberán seguir las siguientes indicaciones:</p><ul><li>Usar ventanales blancos de PVC, malla de seguridad para balcón o defensa de fierro (solo para departamentos a ras de suelo).</li><li>Para defensas de fierro: sentido vertical, grosor de 16 a 20 mm, separación entre barrotes entre 10 a 15 cm, color blanco, sin diseño.</li></ul><p>6.3. Las cortinas visibles desde el exterior deben ser de color crudo.</p><p>6.4. Todas las modificaciones deben ser autorizadas por la administración vía correo electrónico a <a href="mailto:condominiocumbresdequilpue@gmail.com">condominiocumbresdequilpue@gmail.com</a></p><p>6.5. El incumplimiento será multado desde 1 a 3 UTM según la gravedad de la falta.</p>`},
-        { id: 'articulo-7', icon: 'fas fa-users', title: 'Artículo 7: Relaciones Administración-Residentes', content: `<p>7.1. El Comité de Administración y la Administración supervisarán y velarán por el buen funcionamiento del condominio.</p><p>7.2. La dependencia y relaciones directas del personal de servicio son con la administración.</p><p>7.3. Comunicación con la administración:</p><ul><li>Los residentes deben dirigir sus observaciones, reclamos o ideas al comité o la administración, no al personal de servicio.</li><li>Medios oficiales de comunicación: correo electrónico (<a href="mailto:condominiocumbresdequilpue@gmail.com">condominiocumbresdequilpue@gmail.com</a> y <a href="mailto:comitecumbresdequilpue@gmail.com">comitecumbresdequilpue@gmail.com</a>) y Libro de Novedades, Sugerencias y Reclamos en conserjería.</li><li>Para atención presencial, se debe agendar reunión vía correo electrónico.</li><li>Queda prohibido acudir directamente a los departamentos de los miembros del comité, realizar llamadas o enviar mensajes a sus teléfonos personales o citófonos.</li></ul><p>7.4. Personal de servicio:</p><ul><li>Tienen funciones y horarios definidos para el mantenimiento de las instalaciones comunes.</li><li>Está prohibido que realicen trabajos particulares para residentes durante sus horas de trabajo.</li><li>Los residentes no deben encargar tareas particulares al personal de servicio.</li></ul><p>7.5. Se prohíbe estrictamente a residentes o propietarios ingresar o hacer uso de: conserjería, bodega de conserjería, sala de bombas, salas de electricidad, estanques de agua, y medidores que no sean de su unidad, excepto en casos de emergencia.</p><p>7.6. El incumplimiento será multado desde 1 a 3 UTM según la gravedad de la falta.</p>`},
-        { id: 'articulo-8', icon: 'fas fa-home', title: 'Artículo 8: Unidades y Departamentos', content: `<p>8.1. Las unidades son de uso exclusivo para habitación, según lo establecido en el Reglamento de Copropiedad.</p><p>8.2. Está estrictamente prohibido el uso de las unidades como:</p><ul><li>Oficinas</li><li>Consultorios médicos o de otro tipo</li><li>Oficinas profesionales</li><li>Clínicas</li><li>Peluquerías</li><li>Salones de belleza</li><li>Unidades de pensión</li><li>Saunas</li><li>Moteles</li><li>Otros negocios o industrias</li></ul><p>8.3. El mantenimiento y reparación de las unidades es responsabilidad exclusiva de cada propietario, incluyendo:</p><ul><li>Pisos, ventanas, puertas y demás bienes de uso exclusivo</li><li>Instalaciones de luz eléctrica, agua, gas, TV-cable, telefonía y ventilación</li><li>Limpieza y estética del exterior de la puerta de acceso (sin alterar la fachada o numeración)</li></ul><p>8.4. Se permite la instalación de mallas de seguridad en ventanales como medida de protección para niños.</p><p>8.5. El incumplimiento de este artículo será sancionado con multas de 1 a 3 UTM según la gravedad de la falta.</p>`},
-        { id: 'articulo-9', icon: 'fas fa-car', title: 'Artículo 9: Estacionamientos y Circulación', content: `<p>9.1. Uso de estacionamientos:</p><ul><li>Prohibido almacenar mobiliario, bultos, cajones u otros desechos</li><li>No se permite estacionar en áreas comunes o de circulación</li><li>Prohibida la instalación de cobertores para vehículos (solo se permite capa protectora)</li><li>Los residentes deben usar solo sus estacionamientos asignados</li><li>Se recomienda solicitar logo vehicular con número de estacionamiento para identificación</li><li>Prohibido arrendar o enajenar estacionamientos a personas ajenas al condominio</li></ul><p>9.2. Estacionamientos de visitas:</p><ul><li>Uso exclusivo para visitas, máximo 8 horas continuas</li><li>Para visitas prolongadas, solicitar autorización a la administración</li><li>Estacionamientos para emergencia/minusválidos: máximo 12 horas, solo con credencial</li></ul><p>9.3. Circulación:</p><p><strong class="highlight-danger">La velocidad máxima permitida es de 10 km/hora</strong></p><ul><li>Circular con luces bajas encendidas</li><li>Prohibido tocar bocina, excepto para evitar accidentes</li><li>Entrada y salida peatonal solo por accesos peatonales</li></ul><p>9.4. Restricciones:</p><ul><li>Prohibido usar estacionamientos como zona de reparación o lavado de vehículos</li><li>No se permite el lavado de autos con derrame directo de agua</li><li>Prohibido usar calles internas como pista de carreras</li><li>Menores de edad en vehículos recreativos deben ser supervisados por adultos</li></ul><p>9.5. Se recomienda estacionarse en forma aculatada por razones de seguridad.</p><p>9.6. El incumplimiento será multado desde 1 a 3 UTM según la gravedad de la falta.</p>`},
-        { id: 'articulo-10', icon: 'fas fa-tree', title: 'Artículo 10: Espacios Comunes', content: `<p>10.1. Los recintos de uso común pertenecen a todos los residentes. Las personas que los utilicen deberán:</p><ul><li>Procurar su conservación y tener especial cuidado en su correcta utilización.</li><li>Mantener la limpieza y el orden en todo momento.</li><li>Respetar los horarios establecidos para el uso de cada área común.</li></ul><p>10.2. Los daños o deterioros que se produzcan y que no correspondan a fallas o hechos fortuitos, serán de responsabilidad del residente que haya hecho uso de ellos. Los costos de reparación serán de su exclusivo cargo y agregados a sus gastos comunes.</p><p>10.3. El personal de turno del condominio deberá dejar constancia de los daños en el libro de novedades.</p><p>10.4. El Comité de Administración calificará las situaciones de daños producidos por falla o hechos fortuitos y procederá a resolver conforme a este reglamento.</p><p>10.5. Los accidentes que pudieren sufrir los copropietarios, usuarios o arrendatarios del condominio, sus familiares, visitas, empleados o dependientes, al usar los bienes comunes, no comprometen en modo alguno la responsabilidad del resto de los copropietarios, del Comité de Administración o de la Administración.</p><p>10.6. Los invitados sólo podrán hacer uso de los recintos de esparcimiento cuando sean acompañados por un residente y bajo las condiciones establecidas en la ley y Reglamento.</p><p><strong>10.7. Está estrictamente prohibido en los espacios comunes:</strong></p><ul><li>Fumar o beber alcohol.</li><li>Realizar asados con carbón o madera, incluyendo en los balcones de los departamentos.</li><li>Botar colillas de cigarros u otros objetos.</li><li>Almacenar materiales explosivos, húmedos, infecciosos o de mal olor.</li><li>Ocupar con muebles u otros objetos los pasillos, escaleras o cualquier otro espacio común, de forma que impida el goce de ellos por los demás propietarios.</li></ul><p><strong class="highlight-danger">10.8. El incumplimiento será multado desde 1 a 3 UTM según la gravedad de la falta.</strong></p>`},
-        { id: 'articulo-11', icon: 'fas fa-truck-moving', title: 'Artículo 11: Mudanzas y Traslados', content: `<p>11.1. Toda mudanza deberá informarse a la administración o a conserjería con 48 horas de anticipación, enviando un correo electrónico a la administración por parte del dueño de la propiedad.</p><p>11.2. Horarios permitidos para mudanzas:</p><div class="schedule-container"><div class="schedule-card-detailed"><div class="header allowed"><i class="fas fa-check-circle"></i> Permitido</div><div class="body"><p class="day">Lunes a Sábado</p><div class="time-block"><p class="time">09:00 - 18:00</p></div></div></div><div class="schedule-card-detailed"><div class="header prohibited"><i class="fas fa-times-circle"></i> Prohibido</div><div class="body"><p class="day">Domingo y Festivos</p><p class="status">TODO EL DÍA</p></div></div></div><p><strong class="highlight-danger">* No se puede empezar antes, ni terminar después de los horarios establecidos.</strong></p><p>11.3. Cualquier daño que se produzca por la realización de la mudanza será cobrado al departamento involucrado en el próximo gasto común, más una multa de 1 a 3 UTM.</p><p>11.4. El personal deberá resguardar la integridad de los comuneros y de los bienes comunes, tomando medidas que vayan desde solicitar extremar precauciones hasta prohibir el acceso si no se cuenta con las medidas de seguridad adecuadas.</p><p><strong class="highlight-danger">11.5. El incumplimiento será multado desde 1 a 3 UTM según la gravedad de la falta.</strong></p>`},
-        { id: 'articulo-12', icon: 'fas fa-key', title: 'Artículo 12: Arriendos', content: `<p>12.1. Es responsabilidad del propietario comunicar por escrito mediante correo electrónico o registrar en conserjería:</p><ul><li>El nombre de su arrendatario o de las personas que usan o usarán la unidad, aunque no sean arrendatarios.</li><li>Los nombres de los respectivos acompañantes.</li></ul><p>12.2. La responsabilidad por los daños a las instalaciones comunes en que incurrieren los arrendatarios o usuarios será incluida en los gastos comunes de la unidad del propietario.</p><p>12.3. Los conserjes no están autorizados para recibir ni entregar llaves. Si lo hacen, serán sancionados junto con el departamento que solicitó hacerlo.</p><p><strong>12.4. Queda estrictamente prohibido arrendar bodegas o estacionamientos a personas ajenas al condominio.</strong></p><p><strong class="highlight-danger">12.5. El incumplimiento será multado desde 1 a 3 UTM según la gravedad de la falta.</strong></p>`},
-        { id: 'articulo-13', icon: 'fas fa-fire-extinguisher', title: 'Artículo 13: Prevención de Incendios', content: `<p>Debido a las condiciones naturales del condominio y su emplazamiento en una zona boscosa, se deberá tener especial cuidado en la prevención y cuidado de todo el condominio:</p><p>13.1. Queda estrictamente prohibido realizar cualquier actividad que pueda generar un riesgo de incendio en las áreas comunes del condominio, ya sea por descuido, negligencia o imprudencia.</p><p>13.2. Se considerarán faltas graves que atentan contra la seguridad de todos los residentes y las instalaciones del condominio, las siguientes conductas:</p><ul><li>Arrojar colillas de cigarrillos encendidas o cualquier tipo de material en combustión en áreas comunes.</li><li>Utilizar parrillas, braseros o cualquier otro artefacto que requiera el uso de carbón, leña u otro material combustible sólido en terrazas, balcones o áreas comunes.</li><li>Almacenar o dejar materiales inflamables, explosivos o de fácil combustión en áreas comunes.</li><li>Obstruir o bloquear las vías de evacuación, salidas de emergencia, extintores o cualquier otro elemento de seguridad contra incendios.</li><li>Realizar cualquier tipo de manipulación indebida de las instalaciones de gas, electricidad u otras que puedan derivar en un riesgo de incendio.</li><li>Cualquier otra acción u omisión que, a juicio del Comité de Administración y la Administración, implique un riesgo evidente de provocar un incendio en el condominio.</li></ul><p>13.3. Las infracciones descritas en este artículo serán sancionadas como faltas graves, aplicándose las multas correspondientes establecidas en el Artículo 19 del presente Reglamento.</p><p>13.4. En caso de reincidencia o de producirse un incendio por cualquiera de las conductas prohibidas, se aplicarán las multas más elevadas y se evaluará la aplicación de sanciones adicionales contempladas en el Reglamento de Copropiedad y la legislación vigente, no descartando un proceso judicial.</p><p>13.5. Todos los copropietarios, residentes y visitas deberán acatar estrictamente las normas de prevención de incendios y las instrucciones del personal de administración y de los organismos de emergencia en caso de cualquier eventualidad de este tipo.</p>`},
-        { id: 'articulo-14', icon: 'fas fa-hands-helping', title: 'Artículo 14: Convivencia en Comunidad', content: `<p>14.1. Toda agresión física o verbal a residentes del condominio, así como a sus trabajadores o a los bienes de la comunidad será multada con un mínimo de 1 UTM hasta un máximo de 3 UTM, dependiendo de la gravedad del hecho.</p><p>14.2. Los incidentes de agresión podrán ser denunciados ante la autoridad correspondiente.</p><p><strong>14.3. Esta reglamentación aplica a todo tipo de residentes, incluyendo sus visitas y familiares.</strong></p>`},
-        { id: 'articulo-15', icon: 'fas fa-video', title: 'Artículo 15: Uso de Grabaciones y Fotografías', content: `<p>15.1. El condominio cuenta con un circuito cerrado de cámaras de seguridad instaladas en diversas áreas comunes.</p><p>15.2. Las grabaciones y fotografías obtenidas serán utilizadas con fines de:</p><ul><li>Seguridad</li><li>Control del cumplimiento de las normas establecidas en el presente Reglamento Interno y el Reglamento de Copropiedad</li></ul><p>15.3. El Comité de Administración y la Administración podrán emplear las grabaciones y fotografías como evidencia para:</p><ul><li>Determinar la ocurrencia de infracciones y faltas cometidas por copropietarios, residentes, arrendatarios, visitas o cualquier otra persona al interior del condominio</li><li>Cursar las multas correspondientes conforme a lo estipulado en el presente Reglamento</li></ul><p>15.4. Los copropietarios, residentes y demás personas que ingresen al condominio aceptan y autorizan que las grabaciones y fotografías obtenidas mediante el circuito de cámaras de seguridad puedan ser utilizadas para los fines antes descritos.</p><p>15.5. El uso de las grabaciones y fotografías se realizará respetando la normativa vigente en materia de protección de datos personales y privacidad.</p>`},
-        { id: 'articulo-16', icon: 'fas fa-child', title: 'Artículo 16: Uso de Áreas Comunes por Niños y Responsabilidades de Padres o Tutores', content: `<p>Debido a la necesidad de crear un buen ambiente para los menores y en vista de los conflictos que se han suscitado, es imperante crear un marco normativo para el buen uso de las áreas, por lo que se indica lo siguiente:</p><ol><li>Las áreas comunes del condominio destinadas para recreación y esparcimiento, tales como plazas, jardines y áreas de juegos infantiles, podrán ser utilizadas por los niños residentes para sus actividades lúdicas y recreativas.</li><li>Quedan excluidas como zonas de juego para niños las siguientes áreas comunes: bodegas, estacionamientos, pasillos de torres, conserjería, salas de basura y cualquier otro lugar que represente un riesgo para su seguridad o que interfiera con el normal funcionamiento de las instalaciones del condominio.</li><li>Los padres, madres o tutores legales de los niños serán directa y plenamente responsables por cualquier daño, deterioro o perjuicio que éstos ocasionen en las áreas comunes del condominio durante el desarrollo de sus actividades recreativas.</li><li>Es obligación de los padres, madres o tutores legales mantener el orden, limpieza y aseo de las áreas comunes utilizadas por los niños a su cargo, retirando cualquier desecho o elemento utilizado para el juego una vez finalizada la actividad.</li><li>Los padres, madres o tutores legales deberán supervisar en todo momento a los niños bajo su cuidado mientras permanezcan en las áreas comunes, velando por su seguridad e integridad, así como por el respeto a las normas de convivencia y al derecho al descanso de los demás residentes.</li><li>Queda estrictamente prohibido cualquier tipo de conducta agresiva, violenta, acoso, bullying o discriminación por parte de niños hacia otros niños o residentes dentro del condominio. Los padres, madres o tutores legales serán responsables de prevenir e impedir este tipo de situaciones.</li><li>En caso de incumplimiento de las disposiciones contenidas en este artículo, se aplicarán las multas correspondientes conforme al Artículo 19 del presente Reglamento, sin perjuicio de que el Comité de Administración y la Administración puedan adoptar medidas adicionales en resguardo de la seguridad y convivencia de la comunidad.</li><li>Se insta a todos los residentes a promover una cultura de respeto, tolerancia y buena convivencia, fomentando valores como la solidaridad, empatía y resolución pacífica de conflictos entre los niños y sus familias.</li></ol>`},
-        { id: 'articulo-17', icon: 'fas fa-money-bill-wave', title: 'Artículo 17: Morosidad en Gastos Comunes', content: `<p>Según lo establecido en la ley de copropiedad 21.442, principalmente en los artículos 7, 20 y otros, se refuerzan las sanciones administrativas para las unidades morosas de sus gastos comunes, en 3 o más meses consecutivos o no, donde la administración y el comité de administración, tendrán facultad expresa para suspender o requerir suspensión del servicio eléctrico, de telecomunicaciones o de calefacción, según se considere el caso.</p>`},
-        { id: 'articulo-18', icon: 'fas fa-clipboard-list', title: 'Artículo 18: Registro de Residentes', content: `<p>En cumplimiento de lo dispuesto en el artículo 5 de la Ley 21.442 sobre Copropiedad Inmobiliaria, el condominio llevará un Registro de Residentes actualizado, en el cual deberán inscribirse todos los copropietarios, arrendatarios y cualquier otra persona que resida de manera permanente o temporal en las unidades del condominio.</p><ul><li>Será obligación de cada copropietario informar por escrito a la Administración los nombres completos, cédulas de identidad y demás antecedentes que se soliciten de todas las personas que residan en su unidad, ya sean arrendatarios, familiares u otros, dentro de los 15 días siguientes al inicio de la residencia.</li><li>Los copropietarios deberán informar cualquier modificación en la nómina de residentes de su unidad dentro del mismo plazo de 15 días.</li><li>La Administración tendrá la facultad de solicitar la renovación de los antecedentes contenidos en el Registro de Residentes cada 12 meses o cuando lo estime conveniente.</li><li>El Registro de Residentes será de carácter reservado y la información contenida en él será utilizada exclusivamente para fines propios de la administración del condominio, resguardando la protección de datos personales conforme a la normativa vigente.</li><li>El incumplimiento de la obligación de inscribir o actualizar los antecedentes de residentes en el registro habilitado para tales efectos, será considerado una falta grave y se aplicará la multa correspondiente de acuerdo al artículo 19 del presente Reglamento.</li></ul>`},
-        { id: 'articulo-19', icon: 'fas fa-exclamation-triangle', title: 'Artículo 19: Infracciones y Multas', content: `<p>Ante la infracción de cualquier norma estipulada o no en las presentes Normas de reglamento interno como en el de copropiedad que no esté específicamente señalada, se sancionará con multa de 1 a 3 UTM y la reincidencia se considerará como agravante a la falta cometida, producida en un período de 6 meses, desde la ocurrencia de la primera infracción.</p><p>Las faltas se clasifican en:</p><ul><li><strong>Faltas leves (Multa de 1 UTM):</strong> Infracciones menores que no causen daños ni molestias significativas a otros copropietarios/residentes o a los bienes comunes. Por ejemplo: hacer ruidos molestos por un breve período, no recoger las suciedades de las mascotas, entre otras.</li><li><strong>Faltas graves (Multa de 2 UTM):</strong> Infracciones que causen molestias, perjuicios o riesgos relevantes a otros copropietarios/residentes o a los bienes comunes. Por ejemplo: producir ruidos molestos en horarios de descanso, realizar fiestas/reuniones que alteren la tranquilidad, causar daños menores en áreas comunes, entre otras.</li><li><strong>Faltas muy graves (Multa desde 3 UTM):</strong> Infracciones que causen daños materiales significativos, pongan en riesgo la seguridad, impliquen agresiones físicas/verbales, actividades ilegales o reiteración de faltas graves. Por ejemplo: causar daños graves en áreas comunes, actividades que atenten contra la convivencia, agresiones, entre otras.</li></ul><p>El Comité de Administración, en conjunto con la administración, determinará la gravedad de la falta y aplicará la multa correspondiente, dejando constancia de los hechos y fundamentos.</p>`},
-        { id: 'articulo-20', icon: 'fas fa-gavel', title: 'Artículo 20: De la Reconsideración de Multas y Proceso de Infracciones', content: `<h3>20.1 Reconsideración de Multas</h3><p>Ante el curse de cualquier infracción, en cualquiera de las disposiciones disponibles, tanto en el presente REGLAMENTO INTERNO, como en el REGLAMENTO DE COPROPIEDAD, el copropietario o residente a cargo de la unidad, puede presentar un recurso de reconsideración, dentro de los primeros 15 días corridos desde la notificación de la multa, donde podrá solicitar la condonación total o parcial de lo cobrado, expresando sus situaciones o motivos específicos, las cuales serán analizadas entre comité de administración y la administración, quienes resolverán a la brevedad posible, considerando todos los hechos disponibles o que se les entreguen.</p><p>La presentación del recurso deberá ser enviada por correo electrónico al correo de la administración: <a href="mailto:condominiocumbresdequilpue@gmail.com">condominiocumbresdequilpue@gmail.com</a></p><h3>20.2 Resumen del Proceso de Infracciones</h3><table><tr><th>Etapa</th><th>Descripción</th></tr><tr><td>Identificación de falta</td><td><ul><li>El copropietario/residente que identifique alguna falta, informará inmediatamente aquella situación a conserjería.</li><li>El conserje verificará y dejará constancia en bitácora e informará a administración de lo sucedido.</li><li>Se sugiere respaldar lo evidenciado con un correo electrónico a administración, adjuntando cualquier medio de prueba (audio, video o fotografías) si hubiera para tener respaldo de la falta.</li></ul></td></tr><tr><td>Notificación de la multa</td><td>El Comité de Administración y la Administración notifican al copropietario/residente sobre la multa aplicada por correo electrónico, indicando la falta cometida y el monto de la multa.</td></tr><tr><td>Plazo para apelar</td><td>El copropietario/residente tiene un plazo de 15 días corridos desde la notificación para presentar un recurso de reconsideración solicitando la condonación total o parcial de la multa.</td></tr><tr><td>Presentación del recurso</td><td>El recurso debe ser enviado por correo electrónico a la Administración, exponiendo las situaciones o motivos específicos que justifiquen la reconsideración de la multa.</td></tr><tr><td>Análisis del recurso</td><td>El Comité de Administración y la Administración analizan el recurso, considerando los hechos y antecedentes presentados por el copropietario/residente.</td></tr><tr><td>Resolución</td><td>El Comité de Administración y la Administración resuelven a la brevedad posible, determinando si se acoge total o parcialmente el recurso, o si se mantiene la multa original.</td></tr><tr><td>Notificación de la resolución</td><td>Se notifica al copropietario/residente sobre la resolución adoptada respecto a su recurso de reconsideración.</td></tr></table>`},
-        { id: 'modificacion', icon: 'fas fa-file-alt', title: 'Modificación del Reglamento Interno', content: `<p>El Comité de Administración, en conjunto con la administración, verificará una vez al año el presente reglamento interno y hará las modificaciones que se necesiten de acuerdo las actuales necesidades de la comunidad. Sin perjuicio de lo anterior, se presentará en cada siguiente reunión de la asamblea de copropietarios para recibir sugerencias.</p><p>Se faculta a cualquier miembro de la administración, para reducir a escritura pública el presente documento.</p>`}
+        { id: 'intro', icon: 'fas fa-info-circle', title: 'Introducción: Disposiciones Generales', content: `<p>El presente Reglamento de Normas Internas ha sido dictado por el Comité Administración y por la administración conforme a lo establecido en la Ley 21.442 sobre la Copropiedad Inmobiliaria y Reglamento de Copropiedad de la comunidad, el que se da por conocido de todo habitante, residente y usuario de departamentos y/o locales comerciales a cualquier título, que tiene por objetivo principalmente lo siguiente:</p><ul><li>Normar el uso y goce de los espacios comunes.</li><li>Mantener el valor de los activos de la comunidad.</li><li>Mantener una sana convivencia entre todos los residentes de la comunidad.</li><li>Seguridad y Prevención de Riesgos de los residentes.</li><li>Ordenar el uso, goce y preservar las áreas comunes de la comunidad.</li><li>Complementar y aclarar reglamento de copropiedad, gravamen de cada unidad.</li></ul><p>De esta forma, en él se han definido una serie de normas y procedimientos que deberán ser observados por los copropietarios o sus arrendatarios para el uso de los bienes comunes, estableciéndose además la aplicación de multas ante ciertas situaciones, las que serán cobradas en conjunto con los gastos comunes. Cabe destacar que sobre los bienes de dominio común existe un derecho de propiedad de todos y cada uno de los copropietarios, en proporción al prorrateo respectivo.</p><p>El presente documento se enmarca en la dictación de normas vigentes a la fecha de publicación de este reglamento interno. Refleja la ley de copropiedad 21.442, la ley 21.020 sobre tenencia responsable de mascotas y las normas u ordenanzas municipales y gubernamentales.</p><p><strong>El objetivo final de este Reglamento Interno es obtener una mejor calidad de vida para todos los residentes.</strong></p>`},
+        { id: 'articulo-1', icon: 'fas fa-volume-up', title: 'Artículo 1: Ruidos Molestos', content: `<p>1.1. Se prohíbe causar ruidos molestos que perturben la tranquilidad de los vecinos, especialmente entre las <mark>22:00 y las 08:00 horas</mark>.</p><p>1.2. El límite de ruido permitido es de <strong>60 decibeles</strong> (ORD.MUN 06/2023).</p><p>1.3. Horarios para actividades de <strong>construcción y remodelación</strong>:</p><div class="schedule-container"><div class="schedule-card-detailed"><div class="header allowed"><i class="fas fa-check-circle"></i> Permitido</div><div class="body"><p class="day">Lunes a Sábado</p><div class="time-block"><p class="time">09:00 - 13:00</p></div><div class="time-block"><p class="time">15:00 - 18:00</p></div></div></div><div class="schedule-card-detailed"><div class="header prohibited"><i class="fas fa-times-circle"></i> Prohibido</div><div class="body"><p class="day">Domingos y Festivos</p><p class="status">TODO EL DÍA</p></div></div></div><p>1.4. Las infracciones a este artículo serán sancionadas con <strong>multas de 1 a 3 UTM</strong>, según la gravedad y reiteración de la falta.</p>`},
+        { id: 'articulo-2', icon: 'fas fa-glass-cheers', title: 'Artículo 2: Reuniones Sociales', content: `<p>2.1. Horarios permitidos para <strong>reuniones sociales</strong>:</p><div class="schedule-container"><div class="schedule-card-detailed"><div class="header allowed"><i class="fas fa-check-circle"></i> Permitido</div><div class="body"><p class="day">Domingo a Jueves</p><div class="time-block"><p class="time">Hasta las 22:00</p></div></div></div><div class="schedule-card-detailed"><div class="header allowed"><i class="fas fa-check-circle"></i> Permitido</div><div class="body"><p class="day">Viernes, Sábados y Vísperas de Festivos</p><div class="time-block"><p class="time">Hasta las 02:00</p></div></div></div></div><p>2.2. Se debe cuidar los niveles de ruido provocados por artefactos o personas. <strong>La intensidad de los artefactos debe ser moderada.</strong></p><p>2.3. Las actividades sociales podrán ser <u>suspendidas por la Administración o el personal de Conserjería</u> si alteran notoriamente la tranquilidad de cualquier residente.</p><p>2.4. Los residentes pueden solicitar la intervención de <strong>Carabineros de Chile o Seguridad Ciudadana</strong> para suspender actividades que causen molestias.</p><p>2.5. Para reuniones con <mark>más de 15 invitados</mark>, se debe informar la lista al conserje.</p><p>2.6. Se prohíbe que los invitados extiendan las fiestas a jardines o cualquier otro espacio común del condominio.</p><p>2.7. Las infracciones a este artículo serán sancionadas con <strong>multas de 1 a 3 UTM</strong>, según la gravedad de la falta.</p>`},
+        { id: 'articulo-3', icon: 'fas fa-door-open', title: 'Artículo 3: Acceso al Condominio', content: `<p>3.1. El ingreso de visitas debe ser <strong>autorizado por un residente</strong> a través de la Plataforma Virtual o citófono.</p><p>3.2. Las mudanzas y cargas deben ser avisadas con <strong>24 horas de anticipación</strong>. Se debe registrar el nombre, cédula de identidad, patente del vehículo y departamento involucrado.</p><p>3.3. Los servicios de <strong>delivery</strong> solo pueden ingresar hasta el acceso principal, y se permitirá un delivery a la vez. El proceso es:</p><ul><li>El residente debe <u>avisar previamente</u> a conserjería.</li><li>La entrega se realiza en el <u>acceso principal</u> de la torre.</li><li>El residente debe <u>verificar que el delivery se retire</u>.</li></ul><p>3.4. <mark class="danger">No se permitirá la entrada de personas sin autorización previa de un residente responsable.</mark></p>`},
+        { id: 'articulo-4', icon: 'fas fa-paw', title: 'Artículo 4: Animales Domésticos', content: `<p>En relación a la ley de copropiedad 21.442 y ley 21.020 sobre tenencia responsable de mascotas y animales de compañía:</p><ul><li>Los dueños son <strong>responsables de cualquier daño</strong> generado por sus mascotas.</li><li>Las mascotas deben transitar <strong>amarradas y acompañadas por un adulto</strong>.</li><li>Las suciedades deben ser <strong>recogidas inmediatamente</strong> por los dueños.</li><li>Se prohíbe la <strong>libre circulación</strong> de mascotas sin compañía de su dueño.</li><li>Los perros de razas consideradas agresivas (Rottweiler, Doberman, Pitbull y otros) deben circular en todo momento con un adulto y <mark>obligatoriamente con bozal</mark>.</li><li>La adquisición de una nueva mascota debe ser <strong>comunicada a la Administración</strong>.</li></ul><p>Las infracciones a este artículo serán sancionadas con <strong>multas de 1 a 3 UTM</strong> según la gravedad de la falta.</p>`},
+        { id: 'articulo-5', icon: 'fas fa-trash-alt', title: 'Artículo 5: Desechos y Basura', content: `<p>5.1. Horario para la <strong>evacuación de basura</strong>:</p><div class="schedule-container"><div class="schedule-card-detailed"><div class="header allowed"><i class="fas fa-check-circle"></i> Permitido</div><div class="body"><p class="day">Todos los días</p><div class="time-block"><p class="time">09:00 - 22:00</p></div></div></div></div><p>5.2. La basura debe ser depositada en <strong>bolsas plásticas debidamente amarradas</strong> antes de ser evacuadas por el conducto de basura.</p><p>5.3. Se debe dejar libre de residuos y las <strong>puertas cerradas del shaft</strong> para evitar malos olores.</p><p>5.4. Está <mark class="danger">estrictamente prohibido arrojar por los ductos</mark>:</p><ul><li>Materiales de construcción</li><li>Elementos inflamables</li><li>Vidrios o cartones de gran tamaño</li></ul><p>5.5. Los materiales de construcción y escombros deben ser retirados por el contratista. <strong>No se permite su almacenaje en áreas comunes.</strong></p><p>5.7. Las infracciones a este artículo serán sancionadas con <strong>multas de 1 a 3 UTM</strong> según la gravedad de la falta.</p>`},
+        { id: 'articulo-6', icon: 'fas fa-building', title: 'Artículo 6: Estética y Cierre de Balcones', content: `<p>6.1. Queda <strong>estrictamente prohibido</strong>:</p><ul><li><mark>Colgar toallas, sábanas, frazadas, ropa, maceteros</mark> o cualquier otro elemento en las terrazas sobrepasando la línea visual del balcón hacia el exterior.</li><li><strong>Arrojar objetos o desperdicios</strong>, sacudir alfombras, etc. hacia el exterior.</li><li>Extender lonas, banderas, letreros, etc. en murallas exteriores y barandas.</li></ul><p>6.2. Para el <strong>cierre de terrazas</strong>, se deberán seguir las indicaciones de materiales y colores especificados (ventanales blancos de PVC, etc.).</p><p>6.3. Las cortinas visibles desde el exterior deben ser de <strong>color crudo</strong>.</p><p>6.4. <mark>Todas las modificaciones deben ser autorizadas por la administración</mark> vía correo electrónico.</p><p>6.5. El incumplimiento será multado desde <strong>1 a 3 UTM</strong>.</p>`},
+        { id: 'articulo-7', icon: 'fas fa-users', title: 'Artículo 7: Relaciones Administración-Residentes', content: `<p>7.3. <strong>Comunicación con la administración:</strong></p><ul><li>Los residentes deben dirigir sus observaciones, reclamos o ideas al comité o la administración, <u>no al personal de servicio</u>.</li><li>Medios oficiales de comunicación: <strong>correo electrónico y Libro de Novedades</strong> en conserjería.</li><li><mark>Queda prohibido acudir directamente a los departamentos de los miembros del comité</mark>, realizar llamadas o enviar mensajes a sus teléfonos personales o citófonos.</li></ul><p>7.4. <strong>Personal de servicio:</strong></p><ul><li>Está <u>prohibido que realicen trabajos particulares</u> para residentes durante sus horas de trabajo.</li></ul><p>7.5. Se prohíbe estrictamente a residentes o propietarios ingresar o hacer uso de: <strong>conserjería, bodega, sala de bombas, salas de electricidad</strong>, etc.</p><p>7.6. El incumplimiento será multado desde <strong>1 a 3 UTM</strong>.</p>`},
+        { id: 'articulo-8', icon: 'fas fa-home', title: 'Artículo 8: Unidades y Departamentos', content: `<p>8.1. Las unidades son de <strong>uso exclusivo para habitación</strong>.</p><p>8.2. Está <mark class="danger">estrictamente prohibido el uso de las unidades como</mark>: Oficinas, Consultorios, Peluquerías, Salones de belleza, Moteles, u otros negocios.</p><p>8.3. El <strong>mantenimiento y reparación de las unidades es responsabilidad exclusiva de cada propietario</strong>.</p><p>8.5. El incumplimiento de este artículo será sancionado con <strong>multas de 1 a 3 UTM</strong>.</p>`},
+        { id: 'articulo-9', icon: 'fas fa-car', title: 'Artículo 9: Estacionamientos y Circulación', content: `<p>9.1. <strong>Uso de estacionamientos:</strong></p><ul><li><u>Prohibido almacenar</u> mobiliario, bultos, cajones u otros desechos.</li><li>No se permite estacionar en <strong>áreas comunes o de circulación</strong>.</li><li>Los residentes deben usar <strong>solo sus estacionamientos asignados</strong>.</li></ul><p>9.2. <strong>Estacionamientos de visitas:</strong></p><ul><li>Uso exclusivo para visitas, <mark>máximo 8 horas continuas</mark>.</li></ul><p>9.3. <strong>Circulación:</strong></p><p><mark class="danger">La velocidad máxima permitida es de 10 km/hora</mark></p><ul><li>Circular con <strong>luces bajas encendidas</strong>.</li><li><u>Prohibido tocar bocina</u>, excepto para evitar accidentes.</li></ul><p>9.4. <strong>Restricciones:</strong></p><ul><li>Prohibido usar estacionamientos como zona de <strong>reparación o lavado de vehículos</strong>.</li></ul><p>9.6. El incumplimiento será multado desde <strong>1 a 3 UTM</strong>.</p>`},
+        { id: 'articulo-10', icon: 'fas fa-tree', title: 'Artículo 10: Espacios Comunes', content: `<p>10.2. Los <strong>daños o deterioros</strong> que se produzcan [...] serán de <strong>responsabilidad del residente</strong> que haya hecho uso de ellos.</p><p>10.7. Está <mark class="danger">estrictamente prohibido en los espacios comunes</mark>:</p><ul><li><strong>Fumar o beber alcohol.</strong></li><li><strong>Realizar asados con carbón o madera</strong>, incluyendo en los balcones de los departamentos.</li><li>Botar colillas de cigarros u otros objetos.</li><li>Ocupar con muebles u otros objetos los pasillos, escaleras o cualquier otro espacio común.</li></ul><p>10.8. El incumplimiento será multado desde <strong>1 a 3 UTM</strong>.</p>`},
+        { id: 'articulo-11', icon: 'fas fa-truck-moving', title: 'Artículo 11: Mudanzas y Traslados', content: `<p>11.1. Toda mudanza deberá informarse a la administración o a conserjería con <mark>48 horas de anticipación</mark>.</p><p>11.2. <strong>Horarios permitidos para mudanzas:</strong></p><div class="schedule-container"><div class="schedule-card-detailed"><div class="header allowed"><i class="fas fa-check-circle"></i> Permitido</div><div class="body"><p class="day">Lunes a Sábado</p><div class="time-block"><p class="time">09:00 - 18:00</p></div></div></div><div class="schedule-card-detailed"><div class="header prohibited"><i class="fas fa-times-circle"></i> Prohibido</div><div class="body"><p class="day">Domingo y Festivos</p><p class="status">TODO EL DÍA</p></div></div></div><p><mark class="danger">* No se puede empezar antes, ni terminar después de los horarios establecidos.</mark></p><p>11.3. Cualquier daño que se produzca por la mudanza será cobrado al departamento involucrado más una multa.</p><p>11.5. El incumplimiento será multado desde <strong>1 a 3 UTM</strong>.</p>`},
+        { id: 'articulo-12', icon: 'fas fa-key', title: 'Artículo 12: Arriendos', content: `<p>12.1. Es <strong>responsabilidad del propietario comunicar por escrito</strong> el nombre de su arrendatario.</p><p>12.3. Los conserjes <u>no están autorizados para recibir ni entregar llaves</u>.</p><p>12.4. <mark class="danger">Queda estrictamente prohibido arrendar bodegas o estacionamientos a personas ajenas al condominio.</mark></p><p>12.5. El incumplimiento será multado desde <strong>1 a 3 UTM</strong>.</p>`},
+        { id: 'articulo-13', icon: 'fas fa-fire-extinguisher', title: 'Artículo 13: Prevención de Incendios', content: `<p>13.2. Se considerarán <strong>faltas graves</strong> que atentan contra la seguridad:</p><ul><li><mark class="danger">Arrojar colillas de cigarrillos encendidas</mark> o cualquier tipo de material en combustión en áreas comunes.</li><li><mark class="danger">Utilizar parrillas, braseros o cualquier otro artefacto que requiera el uso de carbón o leña</mark> en terrazas, balcones o áreas comunes.</li><li>Almacenar o dejar <strong>materiales inflamables</strong> o explosivos en áreas comunes.</li><li><strong>Obstruir o bloquear las vías de evacuación</strong>, salidas de emergencia, o extintores.</li></ul><p>13.3. Las infracciones descritas serán sancionadas como <strong>faltas graves</strong>.</p>`},
+        { id: 'articulo-14', icon: 'fas fa-hands-helping', title: 'Artículo 14: Convivencia en Comunidad', content: `<p>14.1. Toda <strong>agresión física o verbal</strong> a residentes, trabajadores o a los bienes de la comunidad será <strong>multada con un mínimo de 1 UTM hasta un máximo de 3 UTM</strong>.</p><p>14.2. Los incidentes de agresión podrán ser <u>denunciados ante la autoridad correspondiente</u>.</p><p>14.3. Esta reglamentación aplica a todo tipo de residentes, <strong>incluyendo sus visitas y familiares</strong>.</p>`},
+        { id: 'articulo-15', icon: 'fas fa-video', title: 'Artículo 15: Uso de Grabaciones y Fotografías', content: `<p>15.1. El condominio cuenta con un <strong>circuito cerrado de cámaras de seguridad</strong>.</p><p>15.3. El Comité y la Administración podrán emplear las grabaciones y fotografías como <strong>evidencia para determinar infracciones y cursar multas</strong>.</p><p>15.5. El uso de las grabaciones y fotografías se realizará respetando la normativa vigente en materia de <strong>protección de datos personales y privacidad</strong>.</p>`},
+        { id: 'articulo-16', icon: 'fas fa-child', title: 'Artículo 16: Uso de Áreas Comunes por Niños', content: `<p>16.2. Quedan <strong>excluidas como zonas de juego</strong> para niños las siguientes áreas comunes: <mark>bodegas, estacionamientos, pasillos de torres, conserjería, salas de basura</mark> y cualquier otro lugar que represente un riesgo.</p><p>16.3. Los <strong>padres, madres o tutores legales</strong> serán directa y plenamente <strong>responsables por cualquier daño, deterioro o perjuicio</strong> que los niños ocasionen.</p><p>16.5. Los padres, madres o tutores legales deberán <strong>supervisar en todo momento a los niños</strong> bajo su cuidado mientras permanezcan en las áreas comunes.</p><p>16.6. Queda estrictamente prohibido cualquier tipo de conducta agresiva, violenta, acoso, <strong>bullying</strong> o discriminación por parte de niños.</p>`},
+        { id: 'articulo-17', icon: 'fas fa-money-bill-wave', title: 'Artículo 17: Morosidad en Gastos Comunes', content: `<p>Según lo establecido en la ley de copropiedad 21.442, se refuerzan las sanciones para las unidades morosas en <strong>3 o más meses</strong> (consecutivos o no), donde la administración tendrá facultad para <mark class="danger">suspender o requerir suspensión del servicio eléctrico, de telecomunicaciones o de calefacción</mark>.</p>`},
+        { id: 'articulo-18', icon: 'fas fa-clipboard-list', title: 'Artículo 18: Registro de Residentes', content: `<p>Será <strong>obligación de cada copropietario informar por escrito</strong> a la Administración los datos de todas las personas que residan en su unidad, <mark>dentro de los 15 días siguientes al inicio de la residencia</mark>.</p><p>El incumplimiento de esta obligación será considerado una <strong>falta grave</strong> y se aplicará la multa correspondiente.</p>`},
+        { id: 'articulo-19', icon: 'fas fa-exclamation-triangle', title: 'Artículo 19: Infracciones y Multas', content: `<p>La infracción de cualquier norma se sancionará con <strong>multa de 1 a 3 UTM</strong>. La reincidencia se considerará como agravante.</p><p>Las faltas se clasifican en:</p><ul><li><strong>Faltas leves (Multa de 1 UTM):</strong> Infracciones menores sin daños ni molestias significativas.</li><li><strong>Faltas graves (Multa de 2 UTM):</strong> Infracciones que causen molestias, perjuicios o riesgos relevantes.</li><li><strong>Faltas muy graves (Multa desde 3 UTM):</strong> Infracciones que causen daños materiales significativos, pongan en riesgo la seguridad, o impliquen agresiones.</li></ul>`},
+        { id: 'articulo-20', icon: 'fas fa-gavel', title: 'Artículo 20: Reconsideración de Multas', content: `<h3>20.1 Reconsideración de Multas</h3><p>El copropietario o residente puede presentar un <strong>recurso de reconsideración</strong>, <mark>dentro de los primeros 15 días corridos desde la notificación de la multa</mark>, donde podrá solicitar la condonación total o parcial de lo cobrado.</p><p>La presentación del recurso deberá ser enviada por correo electrónico a la administración.</p><h3>20.2 Resumen del Proceso de Infracciones</h3><table><tr><th>Etapa</th><th>Descripción</th></tr><tr><td>Identificación de falta</td><td>El residente informa a conserjería. El conserje verifica y deja constancia.</td></tr><tr><td>Notificación de la multa</td><td>La Administración notifica al residente por correo electrónico.</td></tr><tr><td>Plazo para apelar</td><td>El residente tiene 15 días corridos para presentar un recurso.</td></tr><tr><td>Presentación del recurso</td><td>El recurso se envía por correo electrónico a la Administración.</td></tr><tr><td>Análisis y Resolución</td><td>El Comité y la Administración analizan y resuelven el caso.</td></tr><tr><td>Notificación de la resolución</td><td>Se notifica al residente la decisión final.</td></tr></table>`},
+        { id: 'modificacion', icon: 'fas fa-file-alt', title: 'Modificación del Reglamento Interno', content: `<p>El Comité de Administración, en conjunto con la administración, <strong>verificará una vez al año el presente reglamento interno</strong> y hará las modificaciones que se necesiten de acuerdo a las actuales necesidades de la comunidad.</p>`}
     ];
 
     const articlesContainer = document.getElementById('articles-container');
+    const reportArticleSelect = document.getElementById('report-article');
     
+    // Populate articles and report form dropdown
     articlesData.forEach(data => {
         const articleEl = document.createElement('div');
         articleEl.className = 'article';
@@ -328,11 +513,20 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="article-content">${data.content}</div>
         `;
         articlesContainer.appendChild(articleEl);
+
+        const option = document.createElement('option');
+        option.value = data.title;
+        option.textContent = data.title;
+        reportArticleSelect.appendChild(option);
     });
 
+    // --- ACCORDION LOGIC ---
     articlesContainer.addEventListener('click', e => {
         const title = e.target.closest('.article-title');
-        if (title) title.parentElement.classList.toggle('active');
+        if (title) {
+            title.parentElement.classList.toggle('active');
+            return;
+        }
     });
 
     // --- THEME TOGGLE ---
@@ -357,8 +551,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- POPUP/MODAL LOGIC ---
     function showPopup(popupId) { document.getElementById(popupId)?.classList.add('show'); }
     function hidePopup(popupId) { document.getElementById(popupId)?.classList.remove('show'); }
-    document.querySelectorAll('.popup .close').forEach(btn => btn.addEventListener('click', () => hidePopup(btn.dataset.popupId)));
-    document.querySelectorAll('.popup').forEach(popup => popup.addEventListener('click', (e) => { if (e.target === popup) hidePopup(popup.id); }));
+    document.querySelectorAll('.popup .close, .cancel-btn').forEach(btn => {
+        btn.addEventListener('click', () => hidePopup(btn.dataset.popupId || btn.closest('.popup').id));
+    });
+    document.querySelectorAll('.popup').forEach(popup => {
+        popup.addEventListener('click', (e) => { if (e.target === popup) hidePopup(popup.id); });
+    });
 
     // --- FONT SIZE CONTROLS ---
     let currentFontSize = 16;
@@ -393,31 +591,46 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('next-tip').addEventListener('click', showRandomTip);
     document.getElementById('whatsapp-button').addEventListener('click', () => showPopup('whatsapp-popup'));
     document.getElementById('confirm-whatsapp').addEventListener('click', () => { window.open('https://wa.me/56971030049', '_blank'); hidePopup('whatsapp-popup'); });
-    document.getElementById('cancel-whatsapp').addEventListener('click', () => hidePopup('whatsapp-popup'));
-    document.getElementById('alert-button').addEventListener('click', () => showPopup('alert-popup'));
-    document.getElementById('confirm-alert').addEventListener('click', () => {
-        const subject = encodeURIComponent('Reporte de Infracción');
-        const body = encodeURIComponent('Por favor, describa la infracción y el artículo relacionado:');
+    
+    // Report Form Logic
+    document.getElementById('report-button').addEventListener('click', () => showPopup('report-popup'));
+    document.getElementById('report-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('report-name').value.trim() || 'Anónimo';
+        const unit = document.getElementById('report-unit').value.trim() || 'No especificada';
+        const article = document.getElementById('report-article').value;
+        const involved = document.getElementById('report-involved').value.trim() || 'No especificado';
+        const description = document.getElementById('report-description').value.trim();
+
+        const subject = encodeURIComponent(`Reporte de Infracción: ${article}`);
+        const body = encodeURIComponent(
+            `Reporte de Infracción\n\n` +
+            `--------------------------------------\n` +
+            `Reportado por: ${name}\n` +
+            `Unidad del reportante: ${unit}\n` +
+            `--------------------------------------\n\n` +
+            `Artículo Involucrado: ${article}\n` +
+            `Persona/Unidad Involucrada: ${involved}\n\n` +
+            `Descripción del incidente:\n${description}`
+        );
+        
         window.location.href = `mailto:Condominiocumbresdequilpue@gmail.com,comitecumbresdequilpue@gmail.com?subject=${subject}&body=${body}`;
-        hidePopup('alert-popup');
+        hidePopup('report-popup');
+        this.reset();
     });
-    document.getElementById('cancel-alert').addEventListener('click', () => hidePopup('alert-popup'));
 
     // --- SEARCH & HIGHLIGHT LOGIC ---
     const searchInput = document.getElementById('search-input');
     const searchResultsContainer = document.getElementById('search-results');
-
     function clearAllHighlights() {
         document.querySelectorAll('.search-highlight-permanent').forEach(el => {
             el.replaceWith(el.textContent);
         });
     }
-
     function highlightTextInArticle(articleElement, term) {
         if (!term || !articleElement) return;
         const regex = new RegExp(`(${term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
         const content = articleElement.querySelector('.article-content');
-        
         const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null, false);
         let node;
         const nodesToProcess = [];
@@ -426,14 +639,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 nodesToProcess.push(node);
             }
         }
-
         nodesToProcess.forEach(node => {
             const span = document.createElement('span');
             span.innerHTML = node.nodeValue.replace(regex, `<span class="search-highlight-permanent">$1</span>`);
             node.parentNode.replaceChild(span, node);
         });
     }
-
     function performSearch() {
         clearAllHighlights();
         const searchTerm = searchInput.value.trim().toLowerCase();
@@ -465,10 +676,8 @@ document.addEventListener('DOMContentLoaded', function() {
         searchResultsContainer.innerHTML = resultsHTML || '<p>No se encontraron resultados.</p>';
         showPopup('search-results-popup');
     }
-
     document.getElementById('search-button').addEventListener('click', performSearch);
     searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') performSearch(); });
-
     searchResultsContainer.addEventListener('click', (e) => {
         const resultItem = e.target.closest('.search-result-item');
         if (resultItem) {
@@ -484,6 +693,89 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    
+    // --- PROGRESS BAR ---
+    const progressBar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (scrollTop / scrollHeight) * 100;
+        progressBar.style.width = `${scrolled}%`;
+    });
+
+    // --- CHATBOT ---
+    const chatbotFab = document.getElementById('chatbot-fab');
+    const chatbotWindow = document.getElementById('chatbot-window');
+    const chatbotMessages = document.getElementById('chatbot-messages');
+    const chatbotInput = document.getElementById('chatbot-input');
+    const chatbotSend = document.getElementById('chatbot-send');
+
+    chatbotFab.addEventListener('click', () => {
+        chatbotWindow.classList.toggle('active');
+        if(chatbotWindow.classList.contains('active')) {
+            chatbotInput.focus();
+        }
+    });
+
+    const knowledgeBase = {
+        'saludo': { keywords: ['hola', 'buenos', 'buenas'], response: '¡Hola! 🦊 Soy el asistente del condominio. ¿En qué puedo ayudarte con el reglamento?' },
+        'ruido': { keywords: ['ruido', 'molestia', 'fiesta', 'musica', 'carrete', 'taladro', 'construccion'], response: 'Las normas sobre ruidos molestos están en el Artículo 1 y 2. En general, se debe evitar el ruido excesivo entre las 22:00 y 08:00. Las fiestas tienen horarios especiales los fines de semana.' },
+        'mascota': { keywords: ['mascota', 'perro', 'gato', 'animal'], response: 'Todo sobre mascotas está en el Artículo 4. Deben usar correa en áreas comunes, sus dueños deben limpiar sus desechos y los de razas peligrosas necesitan bozal.' },
+        'estacionamiento': { keywords: ['estacionamiento', 'auto', 'vehiculo', 'visita', 'velocidad'], response: 'El Artículo 9 detalla el uso de estacionamientos. Debes usar solo el tuyo, los de visita son por un máximo de 8 horas y la velocidad máxima es de 10 km/h.' },
+        'basura': { keywords: ['basura', 'desecho', 'reciclaje'], response: 'El horario para botar basura es de 09:00 a 22:00, como se indica en el Artículo 5. Recuerda usar bolsas bien amarradas.' },
+        'mudanza': { keywords: ['mudanza', 'traslado', 'camion'], response: 'Las mudanzas deben avisarse con 48 horas y tienen horarios específicos detallados en el Artículo 11. No se permiten los domingos ni festivos.' },
+        'balcon': { keywords: ['balcon', 'terraza', 'ropa', 'asado', 'parrilla'], response: 'El Artículo 6 y 10 prohíben colgar ropa en los balcones y hacer asados con carbón o leña. Revisa esos artículos para más detalles sobre la estética.' },
+        'multa': { keywords: ['multa', 'sancion', 'infraccion', 'apelar'], response: 'Las multas van de 1 a 3 UTM dependiendo de la gravedad de la falta. Puedes apelar una multa dentro de 15 días. Todo está en los Artículos 19 y 20.' },
+        'acceso': { keywords: ['acceso', 'visita', 'delivery', 'invitado', 'entrar'], response: 'El ingreso de visitas siempre debe ser autorizado por un residente. Los delivery se reciben en el acceso principal de la torre. Más detalles en el Artículo 3.' },
+        'comun': { keywords: ['comun', 'pasillo', 'jardin', 'fumar', 'alcohol'], response: 'En los espacios comunes está prohibido fumar, beber alcohol, y dejar objetos personales que obstruyan el paso. Revisa el Artículo 10 para ver la lista completa de prohibiciones.' },
+        'arriendo': { keywords: ['arriendo', 'arrendatario', 'llaves'], response: 'El propietario es responsable de informar los datos de sus arrendatarios a la administración. Está prohibido arrendar estacionamientos o bodegas a personas ajenas al condominio (Artículo 12).' },
+        'incendio': { keywords: ['incendio', 'fuego', 'colilla', 'parrilla'], response: 'Está estrictamente prohibido arrojar colillas encendidas o usar parrillas a carbón en balcones o áreas comunes para prevenir incendios, según el Artículo 13.' },
+        'ninos': { keywords: ['niños', 'juegos', 'padres', 'hijos'], response: 'Los padres son responsables por los daños que sus hijos puedan causar en áreas comunes. Los estacionamientos y bodegas no son zonas de juego. Revisa el Artículo 16.' },
+        'deuda': { keywords: ['gastos comunes', 'deuda', 'moroso', 'corte de luz'], response: 'La morosidad de 3 o más gastos comunes puede llevar a la suspensión de servicios como la electricidad, según el Artículo 17.' },
+        'gracias': { keywords: ['gracias', 'ok', 'buena', 'vale'], response: '¡De nada! 🦊 Si tienes otra pregunta, no dudes en consultarme.' },
+    };
+
+    function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-message ${sender}-message`;
+        messageDiv.textContent = text;
+        chatbotMessages.appendChild(messageDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    function getBotResponse(userInput) {
+        const input = userInput.toLowerCase();
+        for (const key in knowledgeBase) {
+            if (knowledgeBase[key].keywords.some(k => input.includes(k))) {
+                return knowledgeBase[key].response;
+            }
+        }
+        return 'No estoy seguro de entender tu pregunta. Intenta usar palabras clave como "ruido", "mascotas", "estacionamiento" o "mudanza".';
+    }
+
+    async function handleSendMessage() {
+        const userInput = chatbotInput.value.trim();
+        if (userInput === '') return;
+
+        addMessage(userInput, 'user');
+        chatbotInput.value = '';
+        
+        const botResponse = getBotResponse(userInput);
+        
+        setTimeout(() => {
+            addMessage(botResponse, 'bot');
+        }, 800);
+    }
+
+    chatbotSend.addEventListener('click', handleSendMessage);
+    chatbotInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            handleSendMessage();
+        }
+    });
+
+    addMessage('¡Hola! Soy tu asistente virtual 🦊. Pregúntame sobre el reglamento (ej: "horario de ruidos", "normas de mascotas").', 'bot');
+
 });
 </script>
 
